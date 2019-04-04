@@ -5,9 +5,9 @@ def tridiagonal_solver(A, b):
 
     """
     Inputs:
-        A: a size 3*N np.ndarray (representing a N*N tridiagonal matrix A')
-            Note that A[0][0] and a[-1][2] are constant 0
-        b: a size N np.array where A'x = b
+        A       : a size 3*N np.ndarray (representing a N*N tridiagonal matrix A')
+                  Note that A[0][0] and a[-1][2] are constant 0
+        b       : a size N np.array where A'x = b
     
     Outputs:
         x: a size N np.array that A'x = b
@@ -36,3 +36,4 @@ def tridiagonal_solver(A, b):
         x[i] = (b[i] - U[i][1] * x[i + 1]) / U[i][0]
     
     return x
+
