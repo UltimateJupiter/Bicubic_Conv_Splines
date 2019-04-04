@@ -8,7 +8,7 @@ This repo contains a set of codes for Bicubic Splines, Cubic Convolution Interpo
 
 Such algorithms are useful in performing numerical approximations in a 2-D large data grid, and are important in computational graphics such as smooth 2-D image resampling.
 
-This project is mainly done for the final project of MATH361S
+This project is primarily done for the final project of MATH361S
 
 ### Progress so far
 
