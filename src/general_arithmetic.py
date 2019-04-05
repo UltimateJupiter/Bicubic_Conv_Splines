@@ -37,3 +37,26 @@ def tridiagonal_solver(A, b):
     
     return x
 
+
+def piecewise_1d_to_2d(M, func, scale):
+
+    # Edge cases should be well handled by func itself
+
+    assert isinstance(M, np.ndarray)
+    m, n = M.shape
+    
+    tmp_1 = np.zeros([m, (n - 1) * scale + 1])
+    for i in range(m):
+        tmp_1[i] = func(M[i], scale)
+    tmp_1 = np.transpose(tmp_1)
+
+    tmp_2 = np.zeros([(m - 1) * scale + 1, (n - 1) * scale + 1])
+    for i in range((n - 1) * scale + 1):
+        tmp_2[i] = func(tmp_1[i], scale)
+    ret = np.transpose(tmp_2)
+
+    return ret
+        
+
+
+

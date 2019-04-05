@@ -8,7 +8,7 @@ This repo contains a set of codes for Bicubic Splines, Cubic Convolution Interpo
 
 Such algorithms are useful in performing numerical approximations in a 2-D large data grid, and are important in computational graphics such as smooth 2-D image resampling.
 
-This project is mainly done for the final project of MATH361S
+This project is done for the final project for MATH361S
 
 ### Progress so far
 
@@ -16,7 +16,9 @@ Finished Bilinear & Nearest as well as a basic main.py (19/04/03)
 
 Finished Bicubic (19/04/04)
 
-![Image1](https://i.ibb.co/92cyj7g/Figure-2.png)
+Finished 1D pchip & framework to convert 1D interpolation to 2D (19/04/05)
+
+![Image1](https://i.ibb.co/MsSK0WM/1.png)
 
 ---
 
