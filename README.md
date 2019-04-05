@@ -19,7 +19,7 @@ Finished Bicubic (19/04/04)
 Finished 1D pchip & framework to convert 1D interpolation to 2D (19/04/05)
 
 ![Image1](https://i.ibb.co/MsSK0WM/1.png)
-
+![Image2](https://i.ibb.co/WgdTgD6/2.png)
 ---
 
 ![Image2](https://upload.wikimedia.org/wikipedia/commons/9/90/Comparison_of_1D_and_2D_interpolation.svg)

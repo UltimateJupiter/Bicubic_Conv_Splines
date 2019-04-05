@@ -13,20 +13,24 @@ if __name__ == "__main__":
     imx, imy = 8, 8
     color_map = "jet"
     scale = 8
-    # rand_mat = np.random.random((imx, imy))
-    rand_mat = np.random.random((imx, imy)) + np.concatenate([np.expand_dims(np.linspace(i, 0.8 + i, imx), axis=1) for i in np.linspace(0, 0.8, imy)], axis=1)
-    print(rand_mat)
+    rand_mat = np.random.random((imx, imy))
+    rand_mat_slope = np.random.random((imx, imy)) + np.concatenate([np.expand_dims(np.linspace(i, 0.8 + i, imx), axis=1) for i in np.linspace(0, 0.8, imy)], axis=1)
+    checker_board = np.array(([0,1]*(int(imx/2))+[1,0]*(int(imx/2)))*(int(imx/2))).reshape((imx,imx))
+    
+    mat = rand_mat_slope
+    print(mat)
+
     
     # fig = plt.figure()
     fig = plt.figure(figsize=(14,6))
     
     ax = fig.add_subplot(241)
-    ax.imshow(rand_mat, origin="lower", cmap=color_map) 
+    ax.imshow(mat, origin="lower", cmap=color_map) 
     ax.set_title("Nearest Neighbor")
     ax.set_xlim(0, imx-1)
     ax.set_ylim(0, imy-1)
 
-    nearest_neighbor_10 = primative_interpolation.nearest_neighbor_helper(rand_mat, scale)
+    nearest_neighbor_10 = primative_interpolation.nearest_neighbor_helper(mat, scale)
     ax = fig.add_subplot(245, projection="3d")
     X = np.linspace(0, imx-1, (imx-1) * scale + 1)
     Y = np.linspace(0, imy-1, (imy-1) * scale + 1)
@@ -38,7 +42,7 @@ if __name__ == "__main__":
 
 
     # Bilinear
-    bilinear_10 = primative_interpolation.bilinear_helper(rand_mat, scale)
+    bilinear_10 = primative_interpolation.bilinear_helper(mat, scale)
 
     ax = fig.add_subplot(242)
     ax.set_title("Bilinear")
@@ -54,7 +58,7 @@ if __name__ == "__main__":
     ax.set_title('Bilinear')
 
     # Bicubic Spline
-    bicubic_10 = bicubic_spline.bicubic_spline_helper(rand_mat, scale)
+    bicubic_10 = bicubic_spline.bicubic_spline_helper(mat, scale)
 
     ax = fig.add_subplot(243)
     ax.set_title("Bicubic")
@@ -71,7 +75,7 @@ if __name__ == "__main__":
 
 
     # 2d pchip Spline
-    pchip_2d = piecewise_cubic_hermite_spline.pchip_base_helper(rand_mat, scale)
+    pchip_2d = piecewise_cubic_hermite_spline.pchip_base_helper(mat, scale)
     ax = fig.add_subplot(244)
     ax.set_title("2D PCHIP")
     ax.imshow(pchip_2d, origin="lower", cmap=color_map, extent=[0, imx-1, 0, imy-1])
