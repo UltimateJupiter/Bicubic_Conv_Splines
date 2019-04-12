@@ -1,5 +1,6 @@
 import numpy as np
 import scipy
+from tqdm import tqdm
 
 def tridiagonal_solver(A, b):
 
@@ -25,11 +26,12 @@ def tridiagonal_solver(A, b):
     U[0] = A[0][1:]
     U[:, 1] = A[:, 2]
     
-    for i in range(1, iters):
+    for i in tqdm(range(1, iters)):
         
         w = A[i][0] / U[i - 1][0]
         b[i] = b[i] - w * b[i - 1]
         U[i][0] = A[i][1] - w * U[i - 1][1]
+        
     
     x[-1] = b[-1] / U[-1][0]
     for i in range(iters - 2, -1, -1):
@@ -58,5 +60,10 @@ def piecewise_1d_to_2d(M, func, scale):
     return ret
         
 
+def array_padding_1D(L, blank=False):
 
+    X = np.zeros(len(L) + 2)
+    X[1: -1] = L
+    X[0], X[-1] = 2 * X[1] - X[2], 2 * X[-2] - X[-3]
 
+    return X

@@ -1,5 +1,5 @@
 import numpy as np
-from general_arithmetic import piecewise_1d_to_2d
+from general_arithmetic import piecewise_1d_to_2d, array_padding_1D
 import matplotlib.pyplot as plt
 
 solve_mat = np.linalg.inv(np.array(
@@ -17,9 +17,7 @@ def pchip_base(L, scale):
     assert scale >= 2
     assert len(L) >= 2
 
-    X = np.zeros(len(L) + 2)
-    X[1: -1] = L
-    X[0], X[-1] = 2 * X[1] - X[2], 2 * X[-2] - X[-3]
+    X = array_padding_1D(L)
 
     ret = np.zeros((len(L) - 1) * scale + 1)
 

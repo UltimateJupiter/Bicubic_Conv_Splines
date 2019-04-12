@@ -1,8 +1,40 @@
 import numpy as np
+import scipy
+from general_arithmetic import piecewise_1d_to_2d
 
 
-def get_x(x):
-    return 0
+def divided_difference_coefficient(x, y):
+
+    m = len(x)
+    x = np.copy(x)
+    a = np.copy(y)
+    for k in range(1,m):
+        a[k: m] = (a[k: m] - a[k - 1])/(x[k: m] - x[k - 1])
+
+    return a
+
+def newton_polynomial_interpolation(x, y, tar):
+
+    coeff = divided_difference_coefficient(x, y)
+    print(coeff)
+    exit()
+    n = len(x) - 1
+    p = coeff[n]
+    for k in range(1, n + 1):
+        p = coeff[n-k] + (tar - x[n - k]) * p
+    return p
+
+def polynomial_interpolation(L, scale):
+
+    ret = newton_polynomial_interpolation(np.arange(len(L)), L, tar=np.linspace(0, len(L) - 1, scale * (len(L) - 1) + 1))
+    print(ret)
+    
+    return ret
+
+def polyfit2d_from1d_helper(M, scale):
+
+    return piecewise_1d_to_2d(M, polynomial_interpolation, scale)
+
 
 def bilinear_interpolation(M, pos):
 
