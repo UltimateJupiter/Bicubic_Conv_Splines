@@ -2,6 +2,7 @@ import bicubic_spline
 import cubic_conv_interpolation
 import primative_interpolation
 import piecewise_cubic_hermite_spline
+import general_arithmetic
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
@@ -58,12 +59,13 @@ def general_comparison():
     rand_mat = np.random.random((imx, imy))
     rand_mat_slope = np.random.random((imx, imy)) + np.concatenate([np.expand_dims(np.linspace(i, 0.8 + i, imx), axis=1) for i in np.linspace(0, 0.8, imy)], axis=1)
     checker_board = np.array(([0,1]*(int(imx/2))+[1,0]*(int(imx/2)))*(int(imx/2))).reshape((imx,imx))
+    runge_2d = general_arithmetic.runge_2d(imx, imy)
     
     imx, imy = 8, 8
     square_peak = np.zeros((imx, imy))
     square_peak[2:-2,2:-2] = np.ones((imx - 4, imy - 4))
     
-    mat = rand_mat_slope
+    mat = runge_2d
     print(mat)
 
     

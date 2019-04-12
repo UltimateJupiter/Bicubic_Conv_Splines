@@ -67,3 +67,15 @@ def array_padding_1D(L, blank=False):
     X[0], X[-1] = 2 * X[1] - X[2], 2 * X[-2] - X[-3]
 
     return X
+
+def runge_2d(x_range, y_range):
+
+    cx, cy = (x_range - 1) / 2, (y_range - 1) / 2
+    norm = min(cx, cy)
+    ret = np.zeros([x_range, y_range])
+    for x in range(x_range):
+        for y in range(y_range):
+            h = np.sqrt((x - cx)**2 + (y - cy)**2)/norm
+            ret[x][y] = 1 / (1 + 25 * h**2)
+    return ret
+    

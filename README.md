@@ -22,10 +22,15 @@ Update the main plotting program for 2D demos
 
 Finished 1D cubic's convergence test, working on monotonic cubic (19/04/11)
 
+---
+Convergence test for natural cubic spline
+![Image0](https://i.ibb.co/h7yr6JJ/base.png)
+
+2D Interpolation for random matrix
 ![Image1](https://i.ibb.co/MsSK0WM/1.png)
 
-![Image2](https://i.ibb.co/WgdTgD6/2.png)
+2D Interpolation for a 2D Runge Function
+![Image2](https://i.ibb.co/3MzrJZQ/Figure-1.png)
 
 ---
 
-![Image2](https://upload.wikimedia.org/wikipedia/commons/9/90/Comparison_of_1D_and_2D_interpolation.svg)

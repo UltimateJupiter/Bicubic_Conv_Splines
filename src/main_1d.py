@@ -39,12 +39,14 @@ def error_for_cubic():
         err_polynomial.append(err)
         err, d = error_analysis(start, end, test_sin_func, h, 1000)
         err_sin.append(err)
-        
+    
+    plt.figure(figsize=(10,4))
+    plt.title("Convergence Rate for Cubic Spline")
     plt.loglog(h_ls, err_runge,
                h_ls, err_polynomial,
                h_ls, err_sin,
                h_ls, [x**4 for x in h_ls], 'k-.')
-    plt.legend(["Runge Function", "Polynomial", "Sin", "h^4"], loc="upper left")
+    plt.legend(["Runge Function", "Order-4 Polynomial", "Sin", "h^4 (baseline)"], loc="upper left")
     plt.ylabel("Err")
     plt.xlabel("h")
     # plt.loglog(h_ls, [x**4 for x in h_ls], c="red")
