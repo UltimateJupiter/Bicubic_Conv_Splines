@@ -18,6 +18,10 @@ Finished Bicubic (19/04/04)
 
 Finished 1D pchip & framework to convert 1D interpolation to 2D (19/04/05)
 
+Update the main plotting program for 2D demos
+
+Finished 1D cubic's convergence test, working on monotonic cubic (19/04/11)
+
 ![Image1](https://i.ibb.co/MsSK0WM/1.png)
 
 ![Image2](https://i.ibb.co/WgdTgD6/2.png)
