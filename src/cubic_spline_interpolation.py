@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-from general_arithmetic import tridiagonal_solver
+from general_arithmetic import tridiagonal_solver, piecewise_1d_to_2d
 
 def cubic_spline_coeff_generator(x, y, sort_x = False):
 
@@ -85,6 +85,17 @@ def bicubic_main():
     y = np.sin(10 * x)
     tar = np.linspace(start, end, points * 5)
     ret_y = cubic_spline_generator(x, y, tar, plotting=0)
+
+def cubic_1d_scaled(L, scale):
+
+    x = np.arange(len(L))
+    y = L
+    target_x = np.linspace(0, len(L) - 1, (len(L) - 1) * scale + 1)
+    return cubic_spline_generator(x, y, target_x)
+
+def cubic_1d_to_2d(mat, scale):
+
+    return piecewise_1d_to_2d(mat, cubic_1d_scaled, scale)
 
 # bicubic_main()
 

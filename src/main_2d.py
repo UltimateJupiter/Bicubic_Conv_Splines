@@ -3,6 +3,7 @@ import cubic_conv_interpolation
 import primative_interpolation
 import piecewise_cubic_hermite_spline
 import general_arithmetic
+import cubic_spline_interpolation
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
@@ -65,7 +66,7 @@ def general_comparison():
     square_peak = np.zeros((imx, imy))
     square_peak[2:-2,2:-2] = np.ones((imx - 4, imy - 4))
     
-    mat = runge_2d
+    mat = rand_mat_slope
     print(mat)
 
     
@@ -81,9 +82,13 @@ def general_comparison():
     plot_1(fig, 242, 246, bilinear_10, "Bilinear", color_map, scale, imx, imy)
 
     # Bicubic Spline
-    bicubic_10 = bicubic_spline.bicubic_spline_helper(mat, scale)
-    plot_1(fig, 243, 247, bicubic_10, "Bicubic", color_map, scale, imx, imy)
+    # bicubic_10 = bicubic_spline.bicubic_spline_helper(mat, scale)
+    # plot_1(fig, 243, 247, bicubic_10, "Bicubic", color_map, scale, imx, imy)
 
+    # 2d cubic spline
+    cubic_2d = cubic_spline_interpolation.cubic_1d_to_2d(mat, scale)
+    plot_1(fig, 243, 247, cubic_2d, "2D cubic", color_map, scale, imx, imy)
+    
     # 2d pchip Spline
     pchip_2d = piecewise_cubic_hermite_spline.pchip_base_helper(mat, scale)
     plot_1(fig, 244, 248, pchip_2d, "2D Pchip", color_map, scale, imx, imy)

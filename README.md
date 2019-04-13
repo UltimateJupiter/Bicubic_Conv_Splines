@@ -26,6 +26,9 @@ Finished 1D cubic's convergence test, working on monotonic cubic (19/04/11)
 Convergence test for natural cubic spline
 ![Image0](https://i.ibb.co/h7yr6JJ/base.png)
 
+Convergence test for piecewise Hermite cubic interpolation
+![Image01](https://i.ibb.co/0CWLp2y/Pchip.png)
+
 2D Interpolation for random matrix
 ![Image1](https://i.ibb.co/MsSK0WM/1.png)
 

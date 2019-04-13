@@ -2,7 +2,7 @@ import numpy as np
 import scipy
 from tqdm import tqdm
 
-def tridiagonal_solver(A, b):
+def tridiagonal_solver(A, b, vis=False):
 
     """
     Inputs:
@@ -25,8 +25,14 @@ def tridiagonal_solver(A, b):
     
     U[0] = A[0][1:]
     U[:, 1] = A[:, 2]
+
+    if vis == True:
+        iterations = tqdm(range(1, iters))
+
+    else:
+        iterations = range(1, iters)
     
-    for i in tqdm(range(1, iters)):
+    for i in iterations:
         
         w = A[i][0] / U[i - 1][0]
         b[i] = b[i] - w * b[i - 1]
@@ -78,4 +84,21 @@ def runge_2d(x_range, y_range):
             h = np.sqrt((x - cx)**2 + (y - cy)**2)/norm
             ret[x][y] = 1 / (1 + 25 * h**2)
     return ret
+
+def fourth_order_finitedif_derivative_approx(x, y, not_a_knot=True):
+
+    assert isinstance(x, np.ndarray)
+    assert len(x) >= 4, "Too few points"
+
+    ret = np.zeros_like(x)
+
+    if not not_a_knot:
+        ret[0] = (-22 * y[0] + 36 * y[1] - 18 * y[2] + 4 * y[3]) / (-22 * x[0] + 36 * x[1] - 18 * x[2] + 4 * x[3])
+        ret[1] = (-2 * y[0] - 3 * y[1] + 6 * y[2] - y[3]) / (-2 * y[0] - 3 * y[1] + 6 * y[2] - y[3])
+        ret[-2] = (-2 * y[-1] - 3 * y[-2] + 6 * y[-3] - y[-4]) / (-2 * y[-1] - 3 * y[-2] + 6 * y[-3] - y[-4])
+        ret[-1] = (-22 * y[-1] + 36 * y[-2] - 18 * y[-3] + 4 * y[-4]) / (-22 * x[-1] + 36 * x[-2] - 18 * x[-3] + 4 * x[-4])
+    for i in range(2, len(x) - 2):
+        ret[i] = (-y[i - 2] + 8 * y[i - 1] - 8 * y[i + 1] + y[i + 2]) / (-x[i - 2] + 8 * x[i - 1] - 8 * x[i + 1] + x[i + 2])
     
+    return ret
+
