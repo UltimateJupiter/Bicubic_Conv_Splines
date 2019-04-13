@@ -40,7 +40,7 @@ def cubic_spline_coeff_generator(x, y, sort_x = False):
 
     return coeff
 
-def cubic_spline_generator(x, y, tar_xs, plotting=0):
+def cubic_spline_generator(x, y, tar_xs, plotting=0, derives=None):
     
     plt_x = []
     plt_y = []

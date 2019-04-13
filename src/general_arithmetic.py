@@ -66,11 +66,16 @@ def piecewise_1d_to_2d(M, func, scale):
     return ret
         
 
-def array_padding_1D(L, blank=False):
+def array_padding_1D(L, blank=False, size=1):
 
-    X = np.zeros(len(L) + 2)
-    X[1: -1] = L
-    X[0], X[-1] = 2 * X[1] - X[2], 2 * X[-2] - X[-3]
+    X = np.zeros(len(L) + size * 2)
+    X[size: -size] = L
+
+    for i in range(-size, 0):
+        X[i] = 2 * X[-i - 1] - X[-i - 2]
+
+    for i in range(size - 1, -1, -1):
+        X[i] = 2 * X[i + 1] - X[i + 2]
 
     return X
 
@@ -85,20 +90,53 @@ def runge_2d(x_range, y_range):
             ret[x][y] = 1 / (1 + 25 * h**2)
     return ret
 
-def fourth_order_finitedif_derivative_approx(x, y, not_a_knot=True):
+def second_order_finitedif_derivative_approx(x, y, boundary_uncentered=True):
 
+    """
+    O(h^2) derivitive calculation (boundaries are O(h^2) for non_centered & equally spaced)
+    If boundary_uncentered is False, the ghost values are processed by padding
+    """
+
+    assert isinstance(x, np.ndarray)
+    assert len(x) >= 2, "Too few points"
+
+    ret = np.zeros_like(x)
+
+    if boundary_uncentered:
+        ret[0] = (y[2] - 4 * y[1] + 3 * y[0]) / (x[0] - x[2])
+        ret[-1] = (y[-3] - 4 * y[-2] + 3 * y[-1]) / (x[-1] - x[-3])
+        ret[1:-1] = (y[2:] - y[:-2]) / (x[2:] - x[:-2])
+    
+    if not boundary_uncentered:
+        X = array_padding_1D(x, size=1)
+        Y = array_padding_1D(Y, size=1)
+        ret = (Y[1:] - Y[:-1]) / (X[1:] - X[:-1])
+    
+    return ret
+
+def fourth_order_finitedif_derivative_approx(x, y, boundary_uncentered=True):
+
+    """
+    O(h^4) derivitive calculation (boundaries are O(h^3))
+    If boundary_uncentered is False, the ghost values are processed by padding
+    """
+    
     assert isinstance(x, np.ndarray)
     assert len(x) >= 4, "Too few points"
 
     ret = np.zeros_like(x)
 
-    if not not_a_knot:
+    if boundary_uncentered:
         ret[0] = (-22 * y[0] + 36 * y[1] - 18 * y[2] + 4 * y[3]) / (-22 * x[0] + 36 * x[1] - 18 * x[2] + 4 * x[3])
         ret[1] = (-2 * y[0] - 3 * y[1] + 6 * y[2] - y[3]) / (-2 * y[0] - 3 * y[1] + 6 * y[2] - y[3])
         ret[-2] = (-2 * y[-1] - 3 * y[-2] + 6 * y[-3] - y[-4]) / (-2 * y[-1] - 3 * y[-2] + 6 * y[-3] - y[-4])
         ret[-1] = (-22 * y[-1] + 36 * y[-2] - 18 * y[-3] + 4 * y[-4]) / (-22 * x[-1] + 36 * x[-2] - 18 * x[-3] + 4 * x[-4])
-    for i in range(2, len(x) - 2):
-        ret[i] = (-y[i - 2] + 8 * y[i - 1] - 8 * y[i + 1] + y[i + 2]) / (-x[i - 2] + 8 * x[i - 1] - 8 * x[i + 1] + x[i + 2])
+        ret[2:-2] = (-y[:-4] + 8 * y[1:-3] - 8 * y[3:-1] + y[4:]) / (-x[:-4] + 8 * x[1:-3] - 8 * x[3:-1] + x[4:])
     
+    if not boundary_uncentered:
+        X = array_padding_1D(x, size=2)
+        Y = array_padding_1D(Y, size=2)
+        ret = (-Y[:-4] + 8 * Y[1:-3] - 8 * Y[3:-1] + Y[4:]) / (-X[:-4] + 8 * X[1:-3] - 8 * X[3:-1] + X[4:])
+
     return ret
 
