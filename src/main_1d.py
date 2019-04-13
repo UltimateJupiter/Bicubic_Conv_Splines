@@ -67,7 +67,7 @@ def error_convergence(interpolation_func, start, end, h_seq, funcs, names, name,
     plt.xlabel("h")
     if save:
         print("save to{}".format("./plots/Error Convergence for {}.png".format(name)))
-        plt.savefig("./plots/Error Convergence for {}.png".format(name), dpi=200)
+        plt.savefig("../plots/Error Convergence for {}.png".format(name), dpi=200)
     # plt.loglog(h_ls, [x**4 for x in h_ls], c="red")
     plt.show()
 

@@ -67,20 +67,20 @@ def general_comparison():
     square_peak = np.zeros((imx, imy))
     square_peak[2:-2,2:-2] = np.ones((imx - 4, imy - 4))
     
-    mat = rand_mat_slope
+    mat = runge_2d
     print(mat)
 
     
     # fig = plt.figure()
-    fig = plt.figure(figsize=(14,6))
+    fig = plt.figure(figsize=(17,6))
 
     # Nearest Neighbor
-    nearest_neighbor_10 = primative_interpolation.nearest_neighbor_helper(mat, scale)
-    plot_1(fig, 241, 245, nearest_neighbor_10, "Nearest Neighbor", color_map, scale, imx, imy, mat1_override=mat)
+    # nearest_neighbor_10 = primative_interpolation.nearest_neighbor_helper(mat, scale)
+    # plot_1(fig, 241, 245, nearest_neighbor_10, "Nearest Neighbor", color_map, scale, imx, imy, mat1_override=mat)
 
     # Bilinear
-    # bilinear_10 = primative_interpolation.bilinear_helper(mat, scale)
-    # plot_1(fig, 242, 246, bilinear_10, "Bilinear", color_map, scale, imx, imy)
+    bilinear_10 = primative_interpolation.bilinear_helper(mat, scale)
+    plot_1(fig, 241, 245, bilinear_10, "Bilinear", color_map, scale, imx, imy)
 
     # Bicubic Hermite
     # bicubic_10 = bicubic_spline.bicubic_spline_helper(mat, scale)
