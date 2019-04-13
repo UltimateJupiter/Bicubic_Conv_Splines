@@ -15,8 +15,8 @@ solve_mat = np.linalg.inv(np.array(
 def local_monotone_mask(dydx, x, y):
 
     assert isinstance(dydx, np.ndarray)
-    print(y)
-    print(dydx)
+    # print(y)
+    # print(dydx)
     
     ret = np.zeros_like(dydx)
     ret[0] = dydx[0]
@@ -28,19 +28,19 @@ def local_monotone_mask(dydx, x, y):
     zero_base = np.zeros(len(ret) - 2)
     S_min = np.minimum(slope[1:], slope[:-1])
     S_max = np.maximum(slope[1:], slope[:-1])
-    print(slope)
-    print(S_max)
-    print(S_min)
+    # print(slope)
+    # print(S_max)
+    # print(S_min)
 
     min_cond = np.minimum(np.maximum(zero_base, dydx[1:-1]), 3 * S_min)
     max_cond = np.maximum(np.minimum(zero_base, dydx[1:-1]), 3 * S_max)
 
     # print((S_min < 0), (S_max > 0), slope)
 
-    ret[1:-1] = min_cond * (S_min < 0) + max_cond * (S_max > 0)
-    ret = dydx
+    ret[1:-1] = min_cond * (S_min > 0) + max_cond * (S_max < 0)
+    # ret = dydx
     ret[1:-1] = ret[1:-1] * (1 - (S_min <= 0) * (S_max >= 0))
-    print(ret)
+    # print(ret)
     return ret
 
 def mc_pchip_coeff_generator(x, y, sort_x=False, derives="2"):
@@ -61,17 +61,19 @@ def mc_pchip_coeff_generator(x, y, sort_x=False, derives="2"):
         dydx = general_arithmetic.fourth_order_finitedif_derivative_approx(x, y)
 
     dydx = local_monotone_mask(dydx, x, y)
+    diff = x[1:] - x[:-1]
 
     coeff = np.zeros([4, len(x) - 1])
     coeff[0] = y[:-1]
     coeff[1] = y[1:]
-    # coeff[2] = (Y[2: -1] - Y[:-3]) / (2 * h)
-    # coeff[3] = (Y[3:] - Y[1:-2]) / (2 * h)
-    # print(dydx)
-    coeff[2] = dydx[:-1]
-    coeff[3] = dydx[1:]
-
+    coeff[2] = dydx[:-1] * diff
+    coeff[3] = dydx[1:] * diff
+    
     coeff = np.matmul(solve_mat, coeff)
+
+    coeff[1] = coeff[1] / diff
+    coeff[2] = coeff[2] / diff**2
+    coeff[3] = coeff[3] / diff**3
     coeff = np.transpose(coeff)
     return coeff
 

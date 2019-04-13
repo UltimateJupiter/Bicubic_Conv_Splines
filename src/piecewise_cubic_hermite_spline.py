@@ -20,6 +20,7 @@ def pchip_coeff_generator(x, y, sort_x=False, derives="2"):
         sorted(x)
 
     assert len(x) == len(y)
+    diff = x[1:] - x[:-1]
     coeff = np.zeros([4, len(x) - 1])
     Y = array_padding_1D(y)
     h = x[1] - x[0]
@@ -32,12 +33,14 @@ def pchip_coeff_generator(x, y, sort_x=False, derives="2"):
     coeff = np.zeros([4, len(x) - 1])
     coeff[0] = y[:-1]
     coeff[1] = y[1:]
-    # coeff[2] = (Y[2: -1] - Y[:-3]) / (2 * h)
-    # coeff[3] = (Y[3:] - Y[1:-2]) / (2 * h)
-    coeff[2] = dydx[:-1]
-    coeff[3] = dydx[1:]
+    coeff[2] = dydx[:-1] * diff
+    coeff[3] = dydx[1:] * diff
+    # Rescale the problem to [0,1]
 
     coeff = np.matmul(solve_mat, coeff)
+    coeff[1] = coeff[1] / diff
+    coeff[2] = coeff[2] / (diff**2)
+    coeff[3] = coeff[3] / (diff**3)
     coeff = np.transpose(coeff)
     return coeff
 

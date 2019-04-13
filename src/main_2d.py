@@ -2,6 +2,7 @@ import bicubic_spline
 import cubic_conv_interpolation
 import primative_interpolation
 import piecewise_cubic_hermite_spline
+import monotonicity_preserving_pchip
 import general_arithmetic
 import cubic_spline_interpolation
 import matplotlib.pyplot as plt
@@ -78,20 +79,25 @@ def general_comparison():
     plot_1(fig, 241, 245, nearest_neighbor_10, "Nearest Neighbor", color_map, scale, imx, imy, mat1_override=mat)
 
     # Bilinear
-    bilinear_10 = primative_interpolation.bilinear_helper(mat, scale)
-    plot_1(fig, 242, 246, bilinear_10, "Bilinear", color_map, scale, imx, imy)
+    # bilinear_10 = primative_interpolation.bilinear_helper(mat, scale)
+    # plot_1(fig, 242, 246, bilinear_10, "Bilinear", color_map, scale, imx, imy)
 
-    # Bicubic Spline
+    # Bicubic Hermite
     # bicubic_10 = bicubic_spline.bicubic_spline_helper(mat, scale)
     # plot_1(fig, 243, 247, bicubic_10, "Bicubic", color_map, scale, imx, imy)
 
-    # 2d cubic spline
-    cubic_2d = cubic_spline_interpolation.cubic_1d_to_2d(mat, scale)
-    plot_1(fig, 243, 247, cubic_2d, "2D cubic", color_map, scale, imx, imy)
-    
+    # 2d mc_pchip Spline
+    mc_pchip_2d = monotonicity_preserving_pchip.mc_pchip_base_helper(mat, scale)
+    plot_1(fig, 242, 246, mc_pchip_2d, "Monotonicity Preserving Pchip", color_map, scale, imx, imy)
+
+
     # 2d pchip Spline
     pchip_2d = piecewise_cubic_hermite_spline.pchip_base_helper(mat, scale)
-    plot_1(fig, 244, 248, pchip_2d, "2D Pchip", color_map, scale, imx, imy)
+    plot_1(fig, 243, 247, pchip_2d, "2D Pchip", color_map, scale, imx, imy)
+    
+    # 2d cubic spline
+    cubic_2d = cubic_spline_interpolation.cubic_1d_to_2d(mat, scale)
+    plot_1(fig, 244, 248, cubic_2d, "2D cubic", color_map, scale, imx, imy)
 
     plt.savefig('test.png', dpi=100)
     plt.show()

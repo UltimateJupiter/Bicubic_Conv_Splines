@@ -13,27 +13,22 @@ def divided_difference_coefficient(x, y):
 
     return a
 
-def newton_polynomial_interpolation(x, y, tar):
+def global_polynomial_interpolation(x, y, tar):
 
-    coeff = divided_difference_coefficient(x, y)
-    print(coeff)
-    exit()
-    n = len(x) - 1
-    p = coeff[n]
-    for k in range(1, n + 1):
-        p = coeff[n-k] + (tar - x[n - k]) * p
-    return p
+    coeff = np.polyfit(x, y, deg=len(x)-1)
+    func = np.poly1d(coeff)
+    return func(tar)
 
-def polynomial_interpolation(L, scale):
+def global_polynomial_interpolation_scaled(L, scale):
 
-    ret = newton_polynomial_interpolation(np.arange(len(L)), L, tar=np.linspace(0, len(L) - 1, scale * (len(L) - 1) + 1))
-    print(ret)
-    
-    return ret
+    x = np.arange(len(L))
+    y = L
+    target_x = np.linspace(0, len(L) - 1, (len(L) - 1) * scale + 1)
+    return global_polynomial_interpolation(x, y, target_x)
 
 def polyfit2d_from1d_helper(M, scale):
 
-    return piecewise_1d_to_2d(M, polynomial_interpolation, scale)
+    return piecewise_1d_to_2d(M, global_polynomial_interpolation_scaled, scale)
 
 
 def bilinear_interpolation(M, pos):

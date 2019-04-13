@@ -139,4 +139,3 @@ def fourth_order_finitedif_derivative_approx(x, y, boundary_uncentered=True):
         ret = (-Y[:-4] + 8 * Y[1:-3] - 8 * Y[3:-1] + Y[4:]) / (-X[:-4] + 8 * X[1:-3] - 8 * X[3:-1] + X[4:])
 
     return ret
-
