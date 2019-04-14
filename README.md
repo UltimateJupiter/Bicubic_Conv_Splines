@@ -26,19 +26,19 @@ Finished monotonicity preserving pchip, working on tension based cubic spline(19
 
 ---
 Convergence test for natural cubic spline
-![Image0](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/src/plots/Error%20Convergence%20for%20Spline.png)
+![Image0](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/plots/Error%20Convergence%20for%20Spline.png)
 
 Convergence test for pchip (centered difference 2nd-order)
-![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/src/plots/Error%20Convergence%20for%20Pchip%20(Derivative%20Approx%20order%202).png)
+![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/plots/Error%20Convergence%20for%20Pchip%20(Derivative%20Approx%20order%202).png)
 
 Convergence test for pchip (centered difference 4nd-order)
-![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/src/plots/Error%20Convergence%20for%20Pchip%20(Derivative%20Approx%20order%204).png)
+![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/plots/Error%20Convergence%20for%20Pchip%20(Derivative%20Approx%20order%204).png)
 
 Convergence test for mc_pchip (centered difference 2nd-order)
-![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/src/plots/Error%20Convergence%20for%20Monotonicity%20preserving%20Pchip%20(Derivative%20Approx%20order%202).png)
+![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/plots/Error%20Convergence%20for%20Monotonicity%20preserving%20Pchip%20(Derivative%20Approx%20order%202).png)
 
 Convergence test for mc_pchip (centered difference 4nd-order)
-![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/src/plots/Error%20Convergence%20for%20Monotonicity%20preserving%20Pchip%20(Derivative%20Approx%20order%204).png)
+![Image01](https://raw.githubusercontent.com/UltimateJupiter/Bicubic_Conv_Splines/master/plots/Error%20Convergence%20for%20Monotonicity%20preserving%20Pchip%20(Derivative%20Approx%20order%204).png)
 
 2D Interpolation for random matrix
 ![Image1](https://i.ibb.co/gjLVRyd/overall.png)
