@@ -19,8 +19,8 @@ def local_monotone_mask(dydx, x, y):
     # print(dydx)
     
     ret = np.zeros_like(dydx)
-    ret[0] = dydx[0]
-    ret[-1] = dydx[-1]
+    # ret[0] = dydx[0]
+    # ret[-1] = dydx[-1]
     
     slope = np.zeros(len(ret) - 1)
     slope = (y[1:] - y[:-1]) / (x[1:] - x[:-1])
@@ -68,7 +68,7 @@ def mc_pchip_coeff_generator(x, y, sort_x=False, derives="2"):
     coeff[1] = y[1:]
     coeff[2] = dydx[:-1] * diff
     coeff[3] = dydx[1:] * diff
-    
+
     coeff = np.matmul(solve_mat, coeff)
 
     coeff[1] = coeff[1] / diff

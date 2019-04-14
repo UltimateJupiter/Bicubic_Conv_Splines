@@ -6,6 +6,7 @@ import monotonicity_preserving_pchip
 import general_arithmetic
 import cubic_spline_interpolation
 import matplotlib.pyplot as plt
+from scipy import interpolate
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
@@ -44,7 +45,7 @@ def plot_diff_1(mat1, mat2, name1, name2, color_map):
     plt.title(name1)
     plt.colorbar()
     plt.subplot(132)
-    plt.imshow(mat1, cmap=color_map)
+    plt.imshow(mat2, cmap=color_map)
     plt.title(name2)
     plt.colorbar()
     plt.subplot(133)
@@ -102,9 +103,36 @@ def general_comparison():
     plt.savefig('test.png', dpi=100)
     plt.show()
 
+def bicubic_scipy_comparing():
 
-if __name__ == "__main__":    
-    general_comparison()
+    imx, imy = 8, 8
+    color_map = "jet"
+    scale = 8
+    rand_mat = np.random.random((imx, imy))
+
+    x = np.arange(imx)
+    y = np.arange(imy)
+    z = rand_mat
+    f = interpolate.interp2d(x, y, z, kind='cubic')
+    x_new = np.linspace(x[0], x[-1], (x[-1]-x[0]) * scale + 1)
+    y_new = np.linspace(y[0], y[-1], (y[-1]-y[0]) * scale + 1)
+    z_new = f(x_new, y_new)
+    
+    bicubic_10 = bicubic_spline.bicubic_spline_helper(rand_mat, scale)
+    cubic_2d = cubic_spline_interpolation.cubic_1d_to_2d(rand_mat, scale)
+    pchip_2d = piecewise_cubic_hermite_spline.pchip_base_helper(rand_mat, scale)
+    mc_pchip_2d = monotonicity_preserving_pchip.mc_pchip_base_helper(rand_mat, scale)
+
+
+    print(bicubic_10 - z_new)
+
+    plot_diff_1(mc_pchip_2d, pchip_2d, "my", "scipy", color_map)
+
+
+
+if __name__ == "__main__":
+    bicubic_scipy_comparing() 
+    # general_comparison()
     
 
     

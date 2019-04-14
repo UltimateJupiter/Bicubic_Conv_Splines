@@ -74,7 +74,7 @@ def error_convergence(interpolation_func, start, end, h_seq, funcs, names, name,
 
 def demo_gen():
 
-    x = np.linspace(-1,1,20)
+    x = np.linspace(-1,1,16)
     y = 1 / (1 + 25 * x ** 2)
 
     tar_x = np.linspace(-1, 1, 400)
@@ -90,28 +90,30 @@ def demo_gen():
         tar_x, pchip_1d, markersize=10
     )
 
-    plt.legend(["Interpolant", "Runge Function", "PCHIP"])
+    plt.legend(["Interpolant", "Runge Function", "Global Polynomial Interpolation", "PCHIP"])
     plt.show()
 
 def visualization_plot():
 
-    x = np.arange(10)
-    y = np.array([2, 2, 2, 2, 10, 10, 10, 12, 6, 1])
+    x = np.arange(7)
+    y = np.array([2,3,8,7,-1,2,1])
     # x = np.linspace(-1,1,20)
     # y = 1 / (1 + 25 * x ** 2)
     tar_x = np.linspace(x[0], x[-1], 100)
 
-    pchip_1d = piecewise_cubic_hermite_spline.pchip_1d_generator(x, y, tar_x, derives='2')
+    pchip_1d_2rd = piecewise_cubic_hermite_spline.pchip_1d_generator(x, y, tar_x, derives='2')
+    pchip_1d_4rd = piecewise_cubic_hermite_spline.pchip_1d_generator(x, y, tar_x, derives='4')
     mc_pchip_1d = monotonicity_preserving_pchip.mc_pchip_1d_generator(x, y, tar_x, derives='2')
     cubic_1d = cubic_spline_interpolation.cubic_spline_generator(x, y, tar_x)
 
     plt.figure(figsize=(12,6))
     plt.plot(x, y, ".k",
-             tar_x, pchip_1d,
-             tar_x, mc_pchip_1d,
-             tar_x, cubic_1d)
-    
-    plt.legend(["data", "pchip", "mc_pchip", "natural cubic"])
+             tar_x, cubic_1d,
+             tar_x, pchip_1d_4rd,
+             markersize=10)
+    plt.plot(tar_x, mc_pchip_1d, lw=3, c="blue", linestyle="--")
+    # plt.legend(["data", "pchip", "mc_pchip", "natural cubic"])
+    plt.legend(["data", "natural cubic spline", "pchip 4rd", "mc pchip 4rd"])
     plt.show()
 
 
@@ -120,20 +122,20 @@ def convergence_analysis():
     h_sequence_spline = [1 / (1.5 ** i) for i in range(2, 25)]
     test_funcs_spline = [[test_sin_func, test_4rd_polynomial, test_runge_function], [baseline_4rd]]
     test_names_spline = [["Runge Function", "Order-4 Polynomial", "Sin"], ["h^4 (baseline)"]]
-    error_convergence(cubic_spline_interpolation.cubic_spline_generator, -1, 1, h_sequence_spline, test_funcs_spline, test_names_spline, "Spline", save=True)
+    # error_convergence(cubic_spline_interpolation.cubic_spline_generator, -1, 1, h_sequence_spline, test_funcs_spline, test_names_spline, "Spline", save=True)
 
-    h_sequence_pchip = [1 / (1.5 ** i) for i in range(2, 30)]
+    h_sequence_pchip = [1 / (1.5 ** i) for i in range(2, 32)]
     test_funcs_pchip = [[test_sin_func, test_4rd_polynomial, test_runge_function], [baseline_3rd]]
     test_names_pchip = [["Runge Function", "Order-4 Polynomial", "Sin"], ["h^3 (baseline)"]]
-    # error_convergence(piecewise_cubic_hermite_spline.pchip_1d_generator, -1, 1, h_sequence_pchip, test_funcs_pchip, test_names_pchip, "Pchip (Derivative Approx order 4)", derives="4", save=True)
+    error_convergence(piecewise_cubic_hermite_spline.pchip_1d_generator, -1, 1, h_sequence_pchip, test_funcs_pchip, test_names_pchip, "Pchip (Derivative Approx order 2)", derives="2", save=True)
 
     h_sequence_mc_pchip = [1 / (1.5 ** i) for i in range(2, 30)]
-    test_funcs_mc_pchip = [[test_sin_func, test_4rd_polynomial, test_runge_function], [baseline_3rd]]#, baseline_3rd]]
-    test_names_mc_pchip = [["Runge Function", "Order-4 Polynomial", "Sin"], ["h^3 (baseline)"]]#, "h^3 (baseline)"]]
-    # error_convergence(monotonicity_preserving_pchip.mc_pchip_1d_generator, -1, 1, h_sequence_mc_pchip, test_funcs_mc_pchip, test_names_mc_pchip, "Monotonicity preserving Pchip (Derivative Approx order 4)", derives="4", save=True)
+    test_funcs_mc_pchip = [[test_sin_func, test_4rd_polynomial, test_runge_function], [baseline_3rd]]#, baseline_4rd]]
+    test_names_mc_pchip = [["Runge Function", "Order-4 Polynomial", "Sin"], ["h^3 (baseline)"]]#, "h^4 (baseline)"]]
+    # error_convergence(monotonicity_preserving_pchip.mc_pchip_1d_generator, -1, 1, h_sequence_mc_pchip, test_funcs_mc_pchip, test_names_mc_pchip, "Monotonicity preserving Pchip (Derivative Approx order 2)", derives="2", save=True)
 
-#visualization_plot()
+visualization_plot()
 
-convergence_analysis()
+# convergence_analysis()
 
-#demo_gen()
+# demo_gen()
