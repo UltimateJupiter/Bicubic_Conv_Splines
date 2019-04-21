@@ -2,12 +2,21 @@ import numpy as np
 import scipy
 from tqdm import tqdm
 
+
+def sinh(x):
+    e = np.e
+    return (e ** x - e ** (-x)) / 2
+
+def cosh(x):
+    e = np.e
+    return (e ** x + e ** (-x)) / 2
+
 def tridiagonal_solver(A, b, vis=False):
 
     """
     Inputs:
         A       : a size 3*N np.ndarray (representing a N*N tridiagonal matrix A')
-                  Note that A[0][0] and a[-1][2] are constant 0
+                  Note that A[0][0] and A[-1][2] are constant 0
         b       : a size N np.array where A'x = b
     
     Outputs:
@@ -44,6 +53,20 @@ def tridiagonal_solver(A, b, vis=False):
         x[i] = (b[i] - U[i][1] * x[i + 1]) / U[i][0]
     
     return x
+
+    """
+    Code for Debug
+    ==
+    mat_a = np.zeros((len(A), len(A)), "float64")
+    mat_a[0][:2] = A[0][1:]
+    mat_a[-1][-2:] = A[-1][:-1]
+    for i in range(1, len(A) - 1):
+        mat_a[i][i-1:i+2] = A[i]
+
+    res = ga.tridiagonal_solver(A, b)
+    print(mat_a)
+    print(np.matmul(mat_a, res) - b)
+    """
 
 
 def piecewise_1d_to_2d(M, func, scale):
@@ -100,7 +123,7 @@ def second_order_finitedif_derivative_approx(x, y, boundary_uncentered=True):
     assert isinstance(x, np.ndarray)
     assert len(x) >= 2, "Too few points"
 
-    ret = np.zeros_like(x)
+    ret = np.zeros_like(x, dtype="float64")
 
     if boundary_uncentered:
         ret[0] = (y[2] - 4 * y[1] + 3 * y[0]) / (x[0] - x[2])
@@ -124,7 +147,7 @@ def fourth_order_finitedif_derivative_approx(x, y, boundary_uncentered=True):
     assert isinstance(x, np.ndarray)
     assert len(x) >= 4, "Too few points"
 
-    ret = np.zeros_like(x)
+    ret = np.zeros_like(x, dtype="float64")
 
     if boundary_uncentered:
         ret[0] = (-22 * y[0] + 36 * y[1] - 18 * y[2] + 4 * y[3]) / (-22 * x[0] + 36 * x[1] - 18 * x[2] + 4 * x[3])
